@@ -781,18 +781,6 @@ def isFloatCounterInWhileLoop(whileToken):
 def hasSideEffectsRecursive(expr):
     if not expr or expr.str == ';':
         return False
-    if expr.str == '=' and expr.astOperand1 and expr.astOperand1.str == '[':
-        # int x[2] = { [0] = 3 }
-        prev = expr.astOperand1.previous
-        if prev and (prev.str in ('{', ',')):
-            return hasSideEffectsRecursive(expr.astOperand2)
-    if expr.str == '=' and expr.astOperand1 and expr.astOperand1.str == '.':
-        # { .x = 3 }
-        e = expr.astOperand1
-        while e and e.str == '.' and e.astOperand2:
-            e = e.astOperand1
-        if e and e.str == '.':
-            return False
     if expr.isAssignmentOp or expr.str in {'++', '--'}:
         return True
     # Todo: Check function calls
