@@ -102,6 +102,7 @@ public:
         checkOther.checkModuloOfOne();
         checkOther.checkOverlappingWrite();
         checkOther.checkSuspiciousForLoop();
+        checkOther.checkDifferentVariablesTypes();
     }
 
     /** Is expression a comparison that checks if a nonzero (unsigned/pointer) expression is less than zero? */
@@ -235,6 +236,12 @@ public:
     void checkSuspiciousForLoopError(const Token* tok, const Token* first_var);
     //check if in a for loops there are two seperators (;)
     bool checkForLoopStructure(const Token* tok);
+
+    void checkDifferentVariablesTypes();
+    void checkDifferentVariablesTypesError(const Token* first_var, const Token* second_var, const Token* tok);
+    //gets enum and return its string
+    const char* getTypeName(enum ValueType::Type var_types);
+
 private:
     // Error messages..
     void checkComparisonFunctionIsAlwaysTrueOrFalseError(const Token* tok, const std::string &functionName, const std::string &varName, const bool result);
